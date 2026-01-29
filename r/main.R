@@ -52,7 +52,18 @@ out = tinyVAST( data = Data,
   space_term = "" ,
   time_term = "" )
 
-
+out2 = tinyVAST(data = data2,
+                family = gaussian(),
+                formula = Count ~ 1 + altitude,
+                spatial_domain = graph,
+                space_column = c("X","Y"),
+                variable_column = "var",
+                time_column = "time",
+                times = seq_times,
+                distribution_column = "dist",
+                space_term = "" ,
+                time_term = "" )
 ## Plot predictions and parameters
 #---------------------------------
 source("r/source/plot_predictions_and_estimates.R")
+

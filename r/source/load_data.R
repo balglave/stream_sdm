@@ -6,10 +6,21 @@ load(paste0(data_folder,"poissons_env_temp.RData"))
 load(paste0(data_folder,"reseaux_hydrographiques.rda"))
 load(paste0(data_folder,"bassins_versants.rda"))
 
+# add species absences (abundance set to zero)
+catches <- catches %>% 
+  pivot_wider(names_from = esp_code_alternatif,
+              values_from = effectif,
+              values_fill = list(effectif = 0)) %>% 
+  pivot_longer(cols = -c(sta_id, pop_id, ope_id, annee),
+               names_to = "esp_code_alternatif",
+               values_to = "effectif")
+
 if(bassin == "loire") rht_sf <- st_transform(rht_loire, 32631)
 if(bassin == "vilaine") rht_sf <- st_transform(rht_vilaine, 32631)
 stream = as_sfnetwork(rht_sf)
 catches_env_df <- left_join(catches,env)
+
+
 catches_env_sf <- inner_join(points_geo_loire,catches_env_df)
 catches_env_sf <- st_transform(catches_env_sf,crs = st_crs(stream))
 
