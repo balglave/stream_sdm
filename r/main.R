@@ -4,7 +4,7 @@
 
 data_folder <- "data/zenodo/processed_data/"
 bassin <- "loire" # "loire" or "vilaine"
-year_of_interest <- 2020:2024 # time period
+year_of_interest <- 1990:2024 # time period
 spp_to_plot <- "ANG" # Anguilla
 make_plots <- T
 
@@ -42,8 +42,8 @@ source("r/source/shape_data.R")
 ## Fit model
 #-----------
 out = tinyVAST(data = Data,
-                family = poisson(),
-                formula = Count ~ 1, # + altitude,
+                family = nbinom1(),
+                formula = Count ~ 1,
                 spatial_domain = graph,
                 space_column = c("X","Y"),
                 variable_column = "var",
