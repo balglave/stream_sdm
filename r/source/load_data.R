@@ -8,7 +8,7 @@ load(paste0(data_folder,"bassins_versants.rda"))
 
 # add species absences (abundance set to zero)
 catches <- catches %>% 
-  pivot_wider(names_from = esp_code_alternatif,
+  pivot_wider(names_from = esp_code_alternatif, ## Add zeroes to data
               values_from = effectif,
               values_fill = list(effectif = 0)) %>% 
   pivot_longer(cols = -c(sta_id, pop_id, ope_id, annee),

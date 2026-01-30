@@ -4,7 +4,7 @@
 
 data_folder <- "data/zenodo/processed_data/"
 bassin <- "loire" # "loire" or "vilaine"
-year_of_interest <- 1990:2024 # time period
+year_of_interest <- 2020:2024 # time period
 spp_to_plot <- "ANG" # Anguilla
 make_plots <- T
 
@@ -38,23 +38,12 @@ source("r/source/reverse_network.R")
 #------------
 source("r/source/shape_data.R")
 
+
 ## Fit model
 #-----------
-out = tinyVAST( data = Data,
-  family = gaussian(),
-  formula = Count ~ 1,
-  spatial_domain = graph,
-  space_column = c("X","Y"),
-  variable_column = "var",
-  time_column = "time",
-  times = seq_times,
-  distribution_column = "dist",
-  space_term = "" ,
-  time_term = "" )
-
-out2 = tinyVAST(data = data2,
-                family = gaussian(),
-                formula = Count ~ 1 + altitude,
+out = tinyVAST(data = Data,
+                family = poisson(),
+                formula = Count ~ 1, # + altitude,
                 spatial_domain = graph,
                 space_column = c("X","Y"),
                 variable_column = "var",
@@ -62,7 +51,11 @@ out2 = tinyVAST(data = data2,
                 times = seq_times,
                 distribution_column = "dist",
                 space_term = "" ,
-                time_term = "" )
+                time_term = "",
+                spacetime_term = "" )
+
+# table(names(out$sdrep$par.random))
+
 ## Plot predictions and parameters
 #---------------------------------
 source("r/source/plot_predictions_and_estimates.R")
