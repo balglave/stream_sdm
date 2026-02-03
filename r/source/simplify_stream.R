@@ -10,18 +10,6 @@ edges <- st_as_sf(activate(rht_network, "edges"))
 
 # Create a data frame of unique nodes
 unique_nodes <- unique(c(edges$from, edges$to))
-nodes_df <- data.frame(node_id = seq_along(unique_nodes), node = unique_nodes)
-
-# Define geometry for the nodes
-# Assuming we have coordinates for nodes (example: x and y coordinates)
-# We need to replace the following with actual coordinates for the nodes
-coordinates <- data.frame(
-  node = unique_nodes,
-  geometry = st_sfc(lapply(seq_along(unique_nodes), function(i) st_point(c(sample(1:100, 1), sample(1:100, 1)))))
-)
-
-# Combine nodes_df with geometry
-nodes_sf <- st_as_sf(merge(nodes_df, coordinates, by = "node"))
 
 # Identify upstream nodes
 upstream_nodes <- unique_nodes[!unique_nodes %in% edges$to]
