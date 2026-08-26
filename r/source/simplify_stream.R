@@ -17,7 +17,9 @@ upstream_nodes <- unique_nodes[!unique_nodes %in% edges$to]
 # Filter edges to remove those connected to upstream nodes
 filtered_edges <- edges %>%
   rename(from_node = from, to_node = to) %>%
-  filter(!from_node %in% upstream_nodes & !to_node %in% upstream_nodes)
+  filter(!from_node %in% upstream_nodes & !to_node %in% upstream_nodes) |> 
+  distinct(from_node,to_node,.keep_all = T)
+    
 
 rht_network_filtered <- as_sfnetwork(st_transform(st_as_sf(filtered_edges[,colnames(rht_loire)], "edges"), 32631), directed = TRUE)
 
